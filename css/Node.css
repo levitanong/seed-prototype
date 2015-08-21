@@ -13,8 +13,8 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 36px;
-    height: 36px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     border: 1px dashed #bbb;
     margin-right: 8px;
@@ -24,8 +24,8 @@
       transition-duration: 0.3s;
       background-color: #0074d9;
       border-radius: 50%;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       transform: scale(0);
       opacity: 0;
     }
