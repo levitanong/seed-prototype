@@ -1,3 +1,5 @@
+import SeedStyle from "../css/Seed.css";
+
 import React from 'react';
 import Node from "./Node";
 
