@@ -57,9 +57,10 @@ export default class Seed extends React.Component {
     this._updateChecked = this._updateChecked.bind(this);
     this._updateTitle = this._updateTitle.bind(this);
     this._deleteNode = this._deleteNode.bind(this);
+    this._makeChildNode = this._makeChildNode.bind(this);
   }
   _updateChecked(id) {
-    var node = this.state.data[id];
+    const node = this.state.data[id];
 
     if (!node.childNodes.length) {
       this.setState({data: _.set(this.state.data, id + ".checked", !this.state.data[id].checked)});
@@ -69,17 +70,37 @@ export default class Seed extends React.Component {
     this.setState({data: _.set(this.state.data, id + ".title", newTitle)});
   }
   _deleteNode(id, parentId) {
-    var newData = _.chain(this.state.data)
+    const newData = _.chain(this.state.data)
       .omit(id)
       .set(parentId + ".childNodes", this.state.data[parentId].childNodes.filter(childNodeKey => childNodeKey !== id))
       .value();
     this.setState({data: newData});
   }
-  render() {
-    var data = this.state.data;
+  _makeChildNode(id, atIndex) {
+    atIndex = _.isUndefined(atIndex) ? 0 : atIndex;
 
-    var recursiveCheck = function(key) {
-      var node = data[key];
+    const newKey = _.chain(this.state.data).keys().max().value() + 1;
+    const newNodeThing = {
+      [newKey]: {
+        title: "",
+        checked: false,
+        notes: null,
+        childNodes: []
+      }
+    }
+    let childNodes = this.state.data[id].childNodes
+    childNodes.splice(atIndex, 0, newKey);
+    const newData = _.chain(this.state.data)
+      .set(id + ".childNodes", childNodes)
+      .assign(newNodeThing)
+      .value();
+    this.setState(newData);
+  }
+  render() {
+    const data = this.state.data;
+
+    const recursiveCheck = function(key) {
+      const node = data[key];
       if (node && node.childNodes && node.childNodes.length) {
         return _.reduce(node.childNodes, (accumulator, childNodeKey) => {
           return accumulator && recursiveCheck(childNodeKey);
@@ -89,20 +110,22 @@ export default class Seed extends React.Component {
       }
     }
 
-    var renderTree = function(key, parentID){
-      var node = data[key];
+    const renderTree = function(key, parentID, index){
+      const node = data[key];
       return (
         <Node 
           key={ key } 
+          index={ index }
           dataID={ key } 
           parentID={ parentID }
           { ...node } 
           checked={ recursiveCheck(key) } 
           onUpdateChecked={ this._updateChecked }
           onUpdateTitle={ this._updateTitle }
-          onDeleteNode={ this._deleteNode }>
-          { (node && node.childNodes && !!node.childNodes.length) && node.childNodes.map(function(child) {
-            return renderTree(child, key);
+          onDeleteNode={ this._deleteNode }
+          onMakeChildNode={ this._makeChildNode }>
+          { (node && node.childNodes && !!node.childNodes.length) && node.childNodes.map(function(child, index) {
+            return renderTree(child, key, index);
           })}
         </Node>
       )
@@ -110,7 +133,7 @@ export default class Seed extends React.Component {
 
     return (
       <div>
-        { renderTree("root", null) }
+        { renderTree("root", null, 0) }
       </div>
     );
   }

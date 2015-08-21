@@ -17,10 +17,24 @@ export default class Node extends React.Component {
     this.props.onUpdateTitle(this.props.dataID, event.target.value);
   }
   _keyDownHandler(event){
-    if (event.key === "Backspace" && this.props.title === "") {
-      // console.log(event.key);
-      this.props.onDeleteNode(this.props.dataID, this.props.parentID);
-      event.preventDefault();
+    switch(event.key) {
+      case "Backspace":
+        if (this.props.title === "") {
+          // console.log(event.key);
+          this.props.onDeleteNode(this.props.dataID, this.props.parentID);
+          event.preventDefault();
+        }
+        break;
+      case "Enter": 
+        console.log("make a new sibling. if already have children, make a new child");
+        if (this.props.childNodes.length) {
+          this.props.onMakeChildNode(this.props.dataID, 0);
+        } else {
+          this.props.onMakeChildNode(this.props.parentID, this.props.index + 1);
+        }
+        break;
+      default:
+        console.log("wala");
     }
   }
   render() {
@@ -38,6 +52,7 @@ export default class Node extends React.Component {
 }
 
 Node.defaultProps = {
+  index: undefined,
   dataID: undefined,
   parentID: null,
   checked: false,
@@ -49,5 +64,6 @@ Node.defaultProps = {
 Node.propTypes = {
   onUpdateChecked: React.PropTypes.func,
   onUpdateTitle: React.PropTypes.func,
-  onDeleteNode: React.PropTypes.func
+  onDeleteNode: React.PropTypes.func,
+  onMakeChildNode: React.PropTypes.func
 }
