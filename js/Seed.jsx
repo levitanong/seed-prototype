@@ -1,5 +1,5 @@
 import React from 'react';
-require("./SeedyScript.jsx")
+require("./SeedyScript.js")
 
 var data = {
   "root" : {
