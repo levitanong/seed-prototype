@@ -6,6 +6,7 @@ module.exports = {
       filename: '[name].js'
   },
   resolve: {
+    alias: { data: __dirname+'/data' },
     extensions: ['', '.js', '.jsx']
   },
   module: {
