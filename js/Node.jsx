@@ -18,6 +18,7 @@ export default class Node extends React.Component {
     this.props.onUpdateTitle(this.props.dataID, event.target.value);
   }
   _keyDownHandler(event){
+    console.log(event.shiftKey, event.key);
     switch(event.key) {
       case "Backspace":
         if (this.props.title === "") {
@@ -35,8 +36,11 @@ export default class Node extends React.Component {
         }
         break;
       case "Tab":
-        console.log("tab!");
-        this.props.onDeepen(this.props.dataID, this.props.parentID, this.props.index);
+        if (event.shiftKey) {
+          this.props.onShallowen(this.props.dataID, this.props.parentID, this.props.index);
+        } else {
+          this.props.onDeepen(this.props.dataID, this.props.parentID, this.props.index);
+        }
         event.preventDefault();
         break;
       default:
@@ -78,5 +82,7 @@ Node.propTypes = {
   onUpdateChecked: React.PropTypes.func,
   onUpdateTitle: React.PropTypes.func,
   onDeleteNode: React.PropTypes.func,
-  onMakeChildNode: React.PropTypes.func
+  onMakeChildNode: React.PropTypes.func,
+  onDeepen: React.PropTypes.func,
+  onShallowen: React.PropTypes.func
 }

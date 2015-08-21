@@ -61,6 +61,7 @@ export default class Seed extends React.Component {
     this._deleteNode = this._deleteNode.bind(this);
     this._makeChildNode = this._makeChildNode.bind(this);
     this._deepen = this._deepen.bind(this);
+    this._shallowen = this._shallowen.bind(this);
     // var data = Nodes.makeSampleData(20);
   }
   _updateChecked(id) {
@@ -81,7 +82,6 @@ export default class Seed extends React.Component {
     this.setState({data: newData});
   }
   _deepen(id, parentId, index) {
-    console.log(id, parentId, index);
     const data = this.state.data;
     if (index) {
       // not first element. make this a child of the one before it.
@@ -94,6 +94,27 @@ export default class Seed extends React.Component {
           .set(olderSiblingKey + ".childNodes", data[olderSiblingKey].childNodes.concat(id))
           .value()
       });
+    }
+  }
+  _shallowen(id, parentId, index) {
+    const data = this.state.data;
+    // remove from its current parent, and make it the child of its grandparent. IF the grandparent exists.
+
+    if (parentId !== "root") {
+      const grandparentKey = _.chain(data)
+        .keys()
+        .find(nodeKey => {
+          return _.includes(data[nodeKey].childNodes, parentId)
+        })
+        .value();
+
+      const newData = _.chain(data)
+        .set(grandparentKey + ".childNodes", data[grandparentKey].childNodes.concat(id))
+        .set(parentId + ".childNodes", data[parentId].childNodes.filter(childNodeKey => childNodeKey !== id))
+        .value();
+
+      this.setState({data: newData});
+      // console.log(derp);
     }
   }
   _makeChildNode(id, atIndex) {
@@ -149,7 +170,8 @@ export default class Seed extends React.Component {
           onUpdateTitle={ this._updateTitle }
           onDeleteNode={ this._deleteNode }
           onMakeChildNode={ this._makeChildNode }
-          onDeepen={ this._deepen }>
+          onDeepen={ this._deepen }
+          onShallowen={ this._shallowen }>
           { (node && node.childNodes && !!node.childNodes.length) && node.childNodes.map(function(child, index) {
             return renderTree(child, key, index);
           })}
