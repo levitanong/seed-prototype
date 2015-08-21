@@ -1,3 +1,8 @@
 body {
   font-family: "Museo Sans";
 }
+
+.Seed {
+  display: flex;
+  justify-content: center;
+}

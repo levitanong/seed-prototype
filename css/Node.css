@@ -3,4 +3,45 @@
   h4 {
     font-weight: 300;
   }
+  .title-group {
+    padding: 8px;
+    display: flex;
+  }
+  .checkbox {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    margin-right: 8px;
+    box-sizing: border-box;
+    padding: 8px;
+    .dot {
+      transition-properties: transform opacity;
+      transition-duration: 0.2s;
+      background-color: #0074d9;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      transform: scale(0);
+      opacity: 0;
+    }
+    &.checked {
+      .dot {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
+  input {
+    font-family: "Museo Sans";
+    font-weighT: 300;
+    font-size: 18px;
+    width: 320px;
+    border: none;
+    padding: 0px;
+    outline: none;
+  }
 }

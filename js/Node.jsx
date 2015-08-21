@@ -1,6 +1,7 @@
 import NodeStyle from "../css/Node.css";
 
 import React from 'react';
+import classnames from "classnames";
 
 export default class Node extends React.Component {
   constructor(props) {
@@ -44,8 +45,12 @@ export default class Node extends React.Component {
 
     return (
       <div className="Node">
-        <span onClick={ this._clickhandler }>{ this.props.checked ? "[x]" : "[ ]"}</span>
-        <input ref="input" value={ this.props.title } onChange={ this._changeTitleHandler } onKeyDown={ this._keyDownHandler } />
+        <div className="title-group">
+          <div className={ classnames("checkbox", {checked: this.props.checked})} onClick={ this._clickhandler }>
+            <div className="dot" />
+          </div>
+          <input ref="input" value={ this.props.title } onChange={ this._changeTitleHandler } onKeyDown={ this._keyDownHandler } />
+        </div>
         <div>
           { this.props.children }
         </div>

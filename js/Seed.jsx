@@ -141,8 +141,10 @@ export default class Seed extends React.Component {
     }.bind(this);
 
     return (
-      <div>
-        { renderTree("root", null, 0) }
+      <div className="Seed">
+        <div className="Nodes">
+          { renderTree("root", null, 0) }
+        </div>
       </div>
     );
   }
