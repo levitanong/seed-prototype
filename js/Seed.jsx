@@ -51,19 +51,13 @@ export default class Seed extends React.Component {
   render() {
     var renderTree = function(key){
       var node = data[key];
-      if (node.children) {
-        return (
-          <Node key={ key } { ...node }>
-            { node.children.map(function(child) {
-              return renderTree(child)
-            })}
-          </Node>
-        )
-      } else {
-        return (
-          <Node key={ key } { ...node } />
-        )
-      }
+      return (
+        <Node key={ key } { ...node }>
+          { node.children && node.children.map(function(child) {
+            return renderTree(child)
+          })}
+        </Node>
+      )
     }
     return (
       <div>
