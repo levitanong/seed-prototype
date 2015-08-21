@@ -1,9 +1,11 @@
 import SeedStyle from "../css/Seed.css";
 
 import React from 'react';
+
 import Node from "./Node";
 import D from "datascript";
 import _ from "lodash";
+import Nodes from "./SeedyScript.js";
 
 export default class Seed extends React.Component {
   constructor(props) {
@@ -58,6 +60,8 @@ export default class Seed extends React.Component {
     this._updateTitle = this._updateTitle.bind(this);
     this._deleteNode = this._deleteNode.bind(this);
     this._makeChildNode = this._makeChildNode.bind(this);
+    var data = Nodes.makeSampleData(20);
+    console.log(data);
   }
   _updateChecked(id) {
     const node = this.state.data[id];
