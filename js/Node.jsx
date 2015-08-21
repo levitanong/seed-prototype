@@ -46,7 +46,7 @@ export default class Node extends React.Component {
     return (
       <div className="Node">
         <div className="title-group">
-          <div className={ classnames("checkbox", {checked: this.props.checked})} onClick={ this._clickhandler }>
+          <div className={ classnames("checkbox", {checked: this.props.checked, checkable: !this.props.childNodes.length})} onClick={ this._clickhandler }>
             <div className="dot" />
           </div>
           <input ref="input" value={ this.props.title } onChange={ this._changeTitleHandler } onKeyDown={ this._keyDownHandler } />

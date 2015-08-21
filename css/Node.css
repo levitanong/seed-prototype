@@ -8,6 +8,8 @@
     display: flex;
   }
   .checkbox {
+    transition-properties: background-color, border-color;
+    transition-duration: 0.3s;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +22,7 @@
     padding: 8px;
     .dot {
       transition-properties: transform opacity;
-      transition-duration: 0.2s;
+      transition-duration: 0.3s;
       background-color: #0074d9;
       border-radius: 50%;
       width: 18px;
@@ -33,6 +35,10 @@
         transform: scale(1);
         opacity: 1;
       }
+    }
+    &:hover.checkable {
+      border-color: #ccc;
+      background-color: #eee;
     }
   }
   input {
