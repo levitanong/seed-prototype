@@ -1,4 +1,5 @@
 import React from 'react';
+import Node from "./Node";
 
 var data = {
   "root" : {
@@ -46,10 +47,27 @@ var data = {
 }
 
 export default class Seed extends React.Component {
+
   render() {
+    var renderTree = function(key){
+      var node = data[key];
+      if (node.children) {
+        return (
+          <Node key={ key } { ...node }>
+            { node.children.map(function(child) {
+              return renderTree(child)
+            })}
+          </Node>
+        )
+      } else {
+        return (
+          <Node key={ key } { ...node } />
+        )
+      }
+    }
     return (
       <div>
-      
+        { renderTree("root") }
       </div>
     );
   }
