@@ -34,6 +34,11 @@ export default class Node extends React.Component {
           this.props.onMakeChildNode(this.props.parentID, this.props.index + 1);
         }
         break;
+      case "Tab":
+        console.log("tab!");
+        this.props.onDeepen(this.props.dataID, this.props.parentID, this.props.index);
+        event.preventDefault();
+        break;
       default:
         console.log("wala");
     }

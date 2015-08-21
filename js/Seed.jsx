@@ -60,8 +60,8 @@ export default class Seed extends React.Component {
     this._updateTitle = this._updateTitle.bind(this);
     this._deleteNode = this._deleteNode.bind(this);
     this._makeChildNode = this._makeChildNode.bind(this);
-    var data = Nodes.makeSampleData(20);
-    console.log(data);
+    this._deepen = this._deepen.bind(this);
+    // var data = Nodes.makeSampleData(20);
   }
   _updateChecked(id) {
     const node = this.state.data[id];
@@ -79,6 +79,22 @@ export default class Seed extends React.Component {
       .set(parentId + ".childNodes", this.state.data[parentId].childNodes.filter(childNodeKey => childNodeKey !== id))
       .value();
     this.setState({data: newData});
+  }
+  _deepen(id, parentId, index) {
+    console.log(id, parentId, index);
+    const data = this.state.data;
+    if (index) {
+      // not first element. make this a child of the one before it.
+      const olderSiblingKey = data[parentId].childNodes[index - 1];
+
+      // remove from parent, and add to older sibling.
+      this.setState({data: 
+        _.chain(data)
+          .set(parentId + ".childNodes", data[parentId].childNodes.filter(childNodeKey => childNodeKey !== id))
+          .set(olderSiblingKey + ".childNodes", data[olderSiblingKey].childNodes.concat(id))
+          .value()
+      });
+    }
   }
   _makeChildNode(id, atIndex) {
     atIndex = _.isUndefined(atIndex) ? 0 : atIndex;
@@ -132,7 +148,8 @@ export default class Seed extends React.Component {
           onUpdateChecked={ this._updateChecked }
           onUpdateTitle={ this._updateTitle }
           onDeleteNode={ this._deleteNode }
-          onMakeChildNode={ this._makeChildNode }>
+          onMakeChildNode={ this._makeChildNode }
+          onDeepen={ this._deepen }>
           { (node && node.childNodes && !!node.childNodes.length) && node.childNodes.map(function(child, index) {
             return renderTree(child, key, index);
           })}
