@@ -18,7 +18,7 @@ export default class Node extends React.Component {
     this.props.onUpdateTitle(this.props.dataID, event.target.value);
   }
   _keyDownHandler(event){
-    console.log(event.shiftKey, event.key);
+    console.log(event.altKey, event.key);
     switch(event.key) {
       case "Backspace":
         if (this.props.title === "") {
@@ -35,17 +35,29 @@ export default class Node extends React.Component {
           this.props.onMakeChildNode(this.props.parentID, this.props.index + 1);
         }
         break;
+      // case "Shift":
+      //   event.preventDefault();
+      case "ArrowLeft":
+        if (event.altKey) {
+          this.props.onShallowen(this.props.dataID, this.props.parentID, this.props.index);
+        }
+        break;
+      case "ArrowRight":
+        if (event.altKey) {
+          this.props.onDeepen(this.props.dataID, this.props.parentID, this.props.index);
+        }
+        break;
       case "Tab":
         if (event.shiftKey) {
           this.props.onShallowen(this.props.dataID, this.props.parentID, this.props.index);
         } else {
           this.props.onDeepen(this.props.dataID, this.props.parentID, this.props.index);
         }
-        event.preventDefault();
         break;
       default:
         console.log("wala");
     }
+    event.preventDefault();
   }
   focus() {
     React.findDOMNode(this.refs.input).focus();
