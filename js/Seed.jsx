@@ -98,7 +98,11 @@ export default class Seed extends React.Component {
       .set(id + ".childNodes", childNodes)
       .assign(newNodeThing)
       .value();
-    this.setState(newData);
+    this.setState(newData, function(){
+      this.refs["node" + newKey].focus();
+    });
+
+    // console.log(this.refs, "node" + newKey);
   }
   render() {
     const data = this.state.data;
@@ -118,6 +122,7 @@ export default class Seed extends React.Component {
       const node = data[key];
       return (
         <Node 
+          ref={ "node" + key }
           key={ key } 
           index={ index }
           dataID={ key } 

@@ -37,12 +37,15 @@ export default class Node extends React.Component {
         console.log("wala");
     }
   }
+  focus() {
+    React.findDOMNode(this.refs.input).focus();
+  }
   render() {
 
     return (
       <div className="Node">
         <span onClick={ this._clickhandler }>{ this.props.checked ? "[x]" : "[ ]"}</span>
-        <input value={ this.props.title } onChange={ this._changeTitleHandler } onKeyDown={ this._keyDownHandler } />
+        <input ref="input" value={ this.props.title } onChange={ this._changeTitleHandler } onKeyDown={ this._keyDownHandler } />
         <div>
           { this.props.children }
         </div>
