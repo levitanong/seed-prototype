@@ -9,7 +9,7 @@ module.exports = {
   output: {
       path: 'build',
       publicPath: '',
-      filename: 'bundle.js'
+      filename: '[name].js'
   },
   resolve: {
     alias: { data: __dirname+'/data' },
