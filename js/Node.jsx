@@ -34,6 +34,7 @@ export default class Node extends React.Component {
         } else {
           this.props.onMakeChildNode(this.props.parentID, this.props.index + 1);
         }
+        event.preventDefault();
         break;
       // case "Shift":
       //   event.preventDefault();
@@ -46,6 +47,7 @@ export default class Node extends React.Component {
         if (event.altKey) {
           this.props.onDeepen(this.props.dataID, this.props.parentID, this.props.index);
         }
+        event.preventDefault();
         break;
       case "Tab":
         if (event.shiftKey) {
@@ -53,11 +55,11 @@ export default class Node extends React.Component {
         } else {
           this.props.onDeepen(this.props.dataID, this.props.parentID, this.props.index);
         }
+        event.preventDefault();
         break;
       default:
         console.log("wala");
     }
-    event.preventDefault();
   }
   focus() {
     React.findDOMNode(this.refs.input).focus();
